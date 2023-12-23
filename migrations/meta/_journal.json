@@ -1,0 +1,27 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1703346618277,
+      "tag": "0000_lively_master_chief",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1703346630287,
+      "tag": "0001_medical_weapon_omega",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1703347647680,
+      "tag": "0002_mute_peter_parker",
+      "breakpoints": true
+    }
+  ]
+}
