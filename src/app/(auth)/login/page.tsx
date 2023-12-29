@@ -1,4 +1,6 @@
 'use client';
+// Loads this Faster as calculation done in client computer itself.
+// This is Done so that user experience is good and doesn't wait for the server to finish loading
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -22,6 +24,7 @@ import Loader from '@/components/global/Loader';
 // import { Separator } from '@/components/ui/separator';
 import { actionLoginUser } from '@/lib/server-actions/auth-actions';
 
+//Login Page is a Function how would nextjs know if it's returning a jsx ?
 const LoginPage = () => {
   const router = useRouter();
   const [submitError, setSubmitError] = useState('');

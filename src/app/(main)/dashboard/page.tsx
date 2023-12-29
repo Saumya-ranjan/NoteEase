@@ -1,9 +1,49 @@
-import React from 'react'
+import React from 'react';
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 
-const DashBoard = () => {
-  return (
-    <div> DashBoard </div>
-  )
-}
+import { cookies } from 'next/headers';
+import db from '@/lib/supabase/db';
+import { redirect } from 'next/navigation';
+import DashboardSetup from '@/components/dashboard-setup/dashboard-setup';
+import { getUserSubscriptionStatus } from '@/lib/supabase/queries';
 
-export default DashBoard
+const DashboardPage = async () => {
+  const supabase = createServerComponentClient({ cookies });
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  // console.log("this is the user data", user)
+
+  if (!user) return;
+
+  const workspace = await db.query.workspaces.findFirst({
+    where: (workspace, { eq }) => eq(workspace.workspaceOwner, user.id),
+  });
+
+  const { data: subscription, error: subscriptionError } =
+    await getUserSubscriptionStatus(user.id);
+
+  if (subscriptionError) return;
+
+  if (!workspace)
+    return (
+      <div
+        className="bg-background
+        h-screen
+        w-screen
+        flex
+        justify-center
+        items-center
+  "
+      >
+        <DashboardSetup
+          user={user}
+          subscription={subscription}
+        />
+      </div>
+    );
+
+  redirect(`/dashboard/${workspace.id}`);
+};
+
+export default DashboardPage;
