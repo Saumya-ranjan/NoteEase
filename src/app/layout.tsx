@@ -16,11 +16,12 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  // console.log(":::::::::", db)
+  console.log(":::::::::", db)
   return (
     <html lang="en">
       <body className={inter.className}>
         <ThemeProvider attribute = "class" defaultTheme='dark' enableSystem>
+          {/* // Should be used so that everything is accessible */}
           <AppStateProvider>
             {children}
           </AppStateProvider>

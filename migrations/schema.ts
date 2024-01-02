@@ -10,6 +10,8 @@ export const codeChallengeMethod = pgEnum("code_challenge_method", ['plain', 's2
 export const pricingType = pgEnum("pricing_type", ['recurring', 'one_time'])
 export const pricingPlanInterval = pgEnum("pricing_plan_interval", ['year', 'month', 'week', 'day'])
 export const subscriptionStatus = pgEnum("subscription_status", ['unpaid', 'past_due', 'incomplete_expired', 'incomplete', 'canceled', 'active', 'trialing'])
+export const equalityOp = pgEnum("equality_op", ['in', 'gte', 'gt', 'lte', 'lt', 'neq', 'eq'])
+export const action = pgEnum("action", ['ERROR', 'TRUNCATE', 'DELETE', 'UPDATE', 'INSERT'])
 
 
 export const workspaces = pgTable("workspaces", {
@@ -102,4 +104,11 @@ export const subscriptions = pgTable("subscriptions", {
 	canceledAt: timestamp("canceled_at", { withTimezone: true, mode: 'string' }).default(sql`now()`),
 	trialStart: timestamp("trial_start", { withTimezone: true, mode: 'string' }).default(sql`now()`),
 	trialEnd: timestamp("trial_end", { withTimezone: true, mode: 'string' }).default(sql`now()`),
+});
+
+export const collaborators = pgTable("collaborators", {
+	id: uuid("id").defaultRandom().primaryKey().notNull(),
+	workspaceId: uuid("workspace_id").notNull().references(() => workspaces.id, { onDelete: "cascade" } ),
+	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
+	userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" } ),
 });
